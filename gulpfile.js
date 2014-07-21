@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var mocha = require('mocha');
 
 var paths = {
   scripts: ['./*.js', '!./gulpfile.js']

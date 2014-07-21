@@ -9,8 +9,8 @@ var typeScriptViewModelGenerator = require('./build/TypeScriptViewModelGenerator
 module.exports = function(options) {
 
   options = options || {
-    typeScriptViewFileName: '{{templateName}}.ts',
-    typeScriptViewModelFileName: 'I{{templateName}}Model.ts'
+    typeScriptViewFileFormat: '{{templateName}}.ts',
+    typeScriptViewModelFileFormat: 'I{{templateName}}Model.ts'
   };
 
   function getFileName(nameMatch, templateName) {
@@ -38,13 +38,13 @@ module.exports = function(options) {
     var outputFile;
 
     // Build typescript view class.
-    if (options.typeScriptViewFileName) {
-      this.push(generate(typeScriptGenerator, fileContent, options.typeScriptViewFileName, file));
+    if (options.typeScriptViewFileFormat) {
+      this.push(generate(typeScriptGenerator, fileContent, options.typeScriptViewFileFormat, file));
     }
 
     // Build typescript view model interface.
-    if (options.typeScriptViewModelFileName) {
-      this.push(generate(typeScriptViewModelGenerator, fileContent, options.typeScriptViewModelFileName, file));
+    if (options.typeScriptViewModelFileFormat) {
+      this.push(generate(typeScriptViewModelGenerator, fileContent, options.typeScriptViewModelFileFormat, file));
     }
 
     callback();
