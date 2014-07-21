@@ -3,8 +3,8 @@
 var through = require('through2');
 var gutil = require('gulp-util');
 var path = require('path');
-var typeScriptGenerator = require('./build/TypeScriptGenerator');
-var typeScriptViewModelGenerator = require('./build/TypeScriptViewModelGenerator');
+var typeScriptGenerator = require('onejs-compiler/dist/TypeScriptGenerator');
+var typeScriptViewModelGenerator = require('onejs-compiler/dist/TypeScriptViewModelGenerator');
 
 module.exports = function(options) {
 

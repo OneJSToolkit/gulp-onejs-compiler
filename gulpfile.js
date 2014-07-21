@@ -1,17 +1,9 @@
 'use strict';
 
 var gulp = require('gulp');
-var mocha = require('mocha');
 
 var paths = {
   scripts: ['./*.js', '!./gulpfile.js']
 };
 
-gulp.task('test', function() {
-  return gulp.src('./test/*.js')
-    .pipe(mocha({
-      reporter: 'dot'
-    }));
-});
-
-gulp.task('default', ['tsc']);
+gulp.task('default', []);
