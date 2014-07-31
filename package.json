@@ -1,6 +1,6 @@
 {
   "name": "gulp-onejs-compiler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Compiles OneJS html templates and generates a variety of output.",
   "license": "MIT",
   "repository": "dzearing/gulp-onejs-compiler",
@@ -19,12 +19,12 @@
     "gulpplugin"
   ],
   "dependencies": {
-    "xmldom": "^0.1.19",
-    "onejs-compiler": "^0.1.0"
+    "xmldom": "^0.1.19"
   },
   "devDependencies": {
     "gulp": "^3.6.0",
     "gulp-util": "~2.2.14",
-    "through2": "^0.4.2"
+    "through2": "^0.4.2",
+    "onejs-compiler": "^1.0.0"
   }
 }
