@@ -16,10 +16,7 @@
     "test": "mocha"
   },
   "keywords": [
-    "gulpplugin",
-    "test",
-    "testing",
-    "qunit"
+    "gulpplugin"
   ],
   "dependencies": {
     "xmldom": "^0.1.19",
