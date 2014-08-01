@@ -1,13 +1,27 @@
 # [gulp](https://github.com/gulpjs/gulp)-onejs-compiler [![Build Status](https://travis-ci.org/dzearing/gulp-onejs-compiler.png?branch=master)](https://travis-ci.org/dzearing/gulp-onejs-compiler)
 
-> Compiler OneJS templates into javascript for project merging.
+> Compiler OneJS templates into javascript for project merging. See the [onejs-compiler](https://github.com/dzearing/onejs-compiler) project for more details on the template format.
 
 ## Install
+
+NOTE: Until onejs-compiler is published to npm, you must use npm link:
+
+```
+git clone onejs-compiler
+cd onejs-compiler
+npm link
+cd..
+git clone gulp-onejs-compiler
+npm i
+npm link onejs-compiler
+```
+
+Once this module has been published:
 
 Install with [npm](https://npmjs.org/package/gulp-onejs-compiler)
 
 ```
-$ npm i --save-dev gulp-onejs-compiler
+$ npm install --save-dev gulp-onejs-compiler
 ```
 
 ## Usage
