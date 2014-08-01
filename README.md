@@ -4,24 +4,10 @@
 
 ## Install
 
-NOTE: Until onejs-compiler is published to npm, you must use npm link:
-
-```
-git clone onejs-compiler
-cd onejs-compiler
-npm link
-cd..
-git clone gulp-onejs-compiler
-npm i
-npm link onejs-compiler
-```
-
-Once this module has been published:
-
 Install with [npm](https://npmjs.org/package/gulp-onejs-compiler)
 
 ```
-$ npm install --save-dev gulp-onejs-compiler
+$ npm i --save-dev gulp-onejs-compiler
 ```
 
 ## Usage
