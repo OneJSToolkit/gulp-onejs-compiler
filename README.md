@@ -1,6 +1,6 @@
 # [gulp](https://github.com/gulpjs/gulp)-onejs-compiler [![Build Status](https://travis-ci.org/dzearing/gulp-onejs-compiler.png?branch=master)](https://travis-ci.org/dzearing/gulp-onejs-compiler)
 
-> Compiler OneJS templates into javascript for project merging.
+> Compiler OneJS templates into javascript for project merging. See the [onejs-compiler](https://github.com/dzearing/onejs-compiler) project for more details on the template format.
 
 ## Install
 
