@@ -50,6 +50,11 @@ module.exports = function(gulp) {
         }
     };
 
+    /** Removes all built files, keeping only source */
+    gulp.task('nuke', function(cb) {
+        del([paths.temp.root, paths.app.root, paths.app.min.root], cb);
+    });
+
     /** Cleans the temporary folders */
     gulp.task('clean', function(cb) {
         del([paths.temp.root], cb);

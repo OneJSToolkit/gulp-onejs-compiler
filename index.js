@@ -66,12 +66,17 @@ module.exports = {
     },
     gulpTasks: {
         dev: function(gulp) {
-            devTasks(gulp)
+            devTasks(gulp);
         },
         release: function(gulp) {
             releaseTasks(gulp);
         },
         test: function(gulp) {
+            testTasks(gulp);
+        },
+        all: function(gulp) {
+            devTasks(gulp);
+            releaseTasks(gulp);
             testTasks(gulp);
         }
     }
