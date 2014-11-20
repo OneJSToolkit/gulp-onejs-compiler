@@ -65,19 +65,58 @@ module.exports = {
         return stream;
     },
     gulpTasks: {
+        paths: {
+            //The common directory structure OneJS uses along with some helpful glob patterns
+            app: {
+                root: 'app/',
+                jsGlob: 'app/**/*.js',
+                min: {
+                    root: 'app-min/'
+                }
+            },
+            dist: {
+                root: 'dist/',
+                amd: 'dist/amd/',
+                commonjs: 'dist/commonjs/'
+            },
+            src: {
+                root: 'src/',
+                htmlGlob: 'src/**/*.html',
+                lessGlob: 'src/**/*.less',
+                tsGlob: 'src/**/*.ts',
+                glob: 'src/**/*'
+            },
+            staticFiles: [
+                'node_modules/requirejs/require.js'
+            ],
+            temp: {
+                root: 'temp/',
+                ts: 'temp/ts/',
+                test: 'temp/ts/test/',
+                tsGlob: 'temp/ts/**/*.ts'
+            },
+            test: {
+                root: 'test/',
+                glob: 'test/**/*'
+            }
+        },
         dev: function(gulp) {
-            devTasks(gulp);
+            // Registers the gulp tasks found in tasks/dev.js
+            devTasks(gulp, this.paths);
         },
         release: function(gulp) {
-            releaseTasks(gulp);
+            // Registers the gulp tasks found in tasks/release.js
+            releaseTasks(gulp, this.paths);
         },
         test: function(gulp) {
-            testTasks(gulp);
+            // Registers the gulp tasks found in tasks/test.js
+            testTasks(gulp, this.paths);
         },
         all: function(gulp) {
-            devTasks(gulp);
-            releaseTasks(gulp);
-            testTasks(gulp);
+            // Registers all the gulp tasks found in tasks/*.js
+            this.dev(gulp);
+            this.release(gulp);
+            this.test(gulp);
         }
     }
 };

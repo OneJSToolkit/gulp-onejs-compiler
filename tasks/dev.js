@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(gulp) {
+module.exports = function(gulp, paths) {
     var onejsCompiler = require('gulp-onejs-compiler').compiler;
     var tsc = require('gulp-typescript');
     var uglify = require('gulp-uglifyjs');
@@ -10,45 +10,6 @@ module.exports = function(gulp) {
     var csstojs = require('gulp-csstojs');
     var postcss = require('gulp-postcss');
     var autoprefixer = require('autoprefixer-core');
-
-    /** 
-     * The common directory structure OneJS uses
-     * along with some helpful glob patterns
-     */
-    var paths = {
-        app: {
-            root: 'app/',
-            jsGlob: 'app/**/*.js',
-            min: {
-                root: 'app-min/'
-            }
-        },
-        dist: {
-            root: 'dist/',
-            amd: 'dist/amd/',
-            commonjs: 'dist/commonjs/'
-        },
-        src: {
-            root: 'src/',
-            htmlGlob: 'src/**/*.html',
-            lessGlob: 'src/**/*.less',
-            tsGlob: 'src/**/*.ts',
-            glob: 'src/**/*'
-        },
-        staticFiles: [
-            'node_modules/requirejs/require.js'
-        ],
-        temp: {
-            root: 'temp/',
-            ts: 'temp/ts/',
-            test: 'temp/ts/test/',
-            tsGlob: 'temp/ts/**/*.ts'
-        },
-        test: {
-            root: 'test/',
-            glob: 'test/**/*'
-        }
-    };
 
     /** Removes all built files, keeping only source */
     gulp.task('nuke', function(cb) {
