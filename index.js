@@ -78,7 +78,8 @@ module.exports = {
                 root: 'dist/',
                 amd: 'dist/amd/',
                 commonjs: 'dist/commonjs/',
-                glob: 'dist/**/**/*'
+                glob: 'dist/**/**/*',
+                gitGlob: 'dist/*'
             },
             src: {
                 root: 'src/',
@@ -91,6 +92,8 @@ module.exports = {
                 js: [
                     'node_modules/requirejs/require.js'
                 ],
+                npmPackage: 'package.json',
+                bowerPackage: 'bower.json'
             },
             onejsFiles: {
                 dts: 'bower_components/onejs/dist/amd/*.ts',
