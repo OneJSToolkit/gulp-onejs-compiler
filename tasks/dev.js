@@ -95,4 +95,7 @@ module.exports = function(options) {
 
     /** Default dev task for building */
     gulp.task('build', ['tsc-amd', 'copy-static-js-files', 'copy-onejs-js-files']);
+
+    /** Our default task, but can be overridden by the users gulp file */
+    gulp.task('default', ['build']);
 };

@@ -95,6 +95,7 @@ module.exports = {
                 dts: 'bower_components/onejs/dist/amd/*.ts',
                 js: 'bower_components/onejs/dist/amd/*.js'
             },
+            release: 'releaseTemp/',
             temp: {
                 root: 'temp/',
                 ts: 'temp/ts/',
