@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(gulp) {
+module.exports = function(gulp, paths) {
     var karma = require('karma').server;
 
     gulp.task('test-preprocess', ['copy-deps'], function() {
@@ -8,9 +8,9 @@ module.exports = function(gulp) {
             .pipe(gulp.dest(paths.temp.test));
     });
 
-    gulp.task('test', ['tsc-commonjs', 'copy-static-files'], function (done) {
+    gulp.task('test', ['tsc-commonjs'], function (done) {
         karma.start({
-            configFile: __dirname + '/karma.conf.js',
+            configFile: paths.test.karmaConf,
             singleRun: true
         }, done);
     });

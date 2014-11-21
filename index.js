@@ -103,7 +103,8 @@ module.exports = {
             },
             test: {
                 root: 'test/',
-                glob: 'test/**/*'
+                glob: 'test/**/*',
+                karmaConf: 'test/karma.conf.js'
             }
         },
         dev: function(gulp) {
