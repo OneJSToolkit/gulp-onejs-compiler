@@ -77,7 +77,8 @@ module.exports = {
             dist: {
                 root: 'dist/',
                 amd: 'dist/amd/',
-                commonjs: 'dist/commonjs/'
+                commonjs: 'dist/commonjs/',
+                glob: 'dist/**/**/*'
             },
             src: {
                 root: 'src/',
@@ -95,7 +96,10 @@ module.exports = {
                 dts: 'bower_components/onejs/dist/amd/*.ts',
                 js: 'bower_components/onejs/dist/amd/*.js'
             },
-            release: 'releaseTemp/',
+            release: {
+                root: 'releaseTemp/',
+                glob: 'releaseTemp/**/**/*'
+            },
             temp: {
                 root: 'temp/',
                 ts: 'temp/ts/',

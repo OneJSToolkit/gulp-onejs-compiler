@@ -10,10 +10,14 @@ module.exports = function(options) {
     var semver = require('semver');
     var prompt = require('gulp-prompt');
     var fs = require('fs');
+    var del = require('del');
 
     var gulp = options.gulp;
     var paths = options.paths;
     var rootDir = options.rootDir;
+
+    var bumpType;
+    var newVersion;
 
     /** Creates a minified version of your application */
     gulp.task('minify', ['tsc-amd'], function() {
@@ -39,7 +43,7 @@ module.exports = function(options) {
             .pipe(tsc({
                 module: 'amd'
             }))
-            .pipe(gulp.dest(paths.dist.amd))
+            .pipe(gulp.dest(paths.dist.amd));
     });
 
     /** Creates the commonjs distributable directory */
@@ -48,49 +52,96 @@ module.exports = function(options) {
             .pipe(tsc({
                 module: 'commonjs'
             }))
-            .pipe(gulp.dest(paths.dist.commonjs))
+            .pipe(gulp.dest(paths.dist.commonjs));
     });
 
     /** Creates both dist flavors */
     gulp.task('dist', ['dist-commonjs', 'dist-amd']);
 
-    gulp.task('release', ['dist'], function() {
+    gulp.task('pre-release', ['dist'], function() {
+        return gulp.src(paths.dist.glob)
+            .pipe(gulp.dest(paths.release.root));
+    });
+
+    gulp.task('prompt-release', ['pre-release'], function() {
         var questions = [
             {
                 type: 'list',
                 name: 'bumpType',
                 message: 'What type of version bump is this?',
                 choices: ['Major', 'Minor', 'Patch']
-            },
-            {
-                type: 'input',
-                name: 'message',
-                message: 'What is your git tag message?',
-                validate: function(input) {
-                    // Do not allow empty git tag messages
-                    return !(input.replace(/ /g,'') === "");
-                }
             }
         ];
 
-        return gulp.src(rootDir + '/package.json')
+        return gulp.src('package.json')
             .pipe(prompt.prompt(questions, function(answers) {
-                var packageJson = JSON.parse(fs.readFileSync(rootDir + '/package.json', 'utf8'));
-                var bowerJson = JSON.parse(fs.readFileSync(rootDir + '/bower.json', 'utf8'));
-                var newVersion = semver.inc(packageJson.version, answers.bumpType.toLowerCase());
-
-                git.tag('v' + newVersion, answers.message, function(err) {
-                    if (err) { throw err; }
-                });
-
-                packageJson.version = newVersion;
-                bowerJson.version = newVersion;
-
-                fs.writeFileSync(rootDir + '/package.json', JSON.stringify(packageJson, null, 4));
-
-                fs.writeFileSync(rootDir + '/bower.json', JSON.stringify(bowerJson, null, 4));
+                bumpType = answers.bumpType;
+                writeUpdatedVersionNumbers();
             }));
     });
+
+    var writeUpdatedVersionNumbers = function() {
+        var packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+        var bowerJson = JSON.parse(fs.readFileSync('bower.json', 'utf8'));
+        newVersion = semver.inc(packageJson.version, bumpType.toLowerCase());
+
+        packageJson.version = newVersion;
+        bowerJson.version = newVersion;
+
+        fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 4));
+
+        fs.writeFileSync('bower.json', JSON.stringify(bowerJson, null, 4));
+    }
+
+    var generateBumpMessage = function() {
+        return 'Version bump to ' + newVersion;
+    }
+
+    gulp.task('commit-master', ['prompt-release'], function() {
+        return gulp.src([rootDir + '/package.json', rootDir + '/bower.json'])
+            .pipe(git.commit(generateBumpMessage()));
+    });
+
+    gulp.task('checkout-dist', ['commit-master'], function(cb) {
+        git.checkout('dist', function(err) {
+            if (err) { return cb(err); }
+            cb();
+        });
+    });
+
+    gulp.task('copy-dist-bits', ['checkout-dist'], function() {
+        return gulp.src(paths.release.glob)
+            .pipe(gulp.dest(paths.dist.root));
+    });
+
+    gulp.task('clean-temp-bits', ['copy-dist-bits'], function(cb) {
+        del([paths.release.root], cb);
+    });
+
+    gulp.task('write-version-updates', ['clean-temp-bits'], function() {
+        return writeUpdatedVersionNumbers();
+    });
+
+    gulp.task('commit-dist', ['write-version-updates'], function() {
+        return gulp.src(['package.json', 'bower.json', 'dist/*'])
+            .pipe(git.commit(generateBumpMessage()));
+    });
+
+    gulp.task('write-dist-tag', ['commit-dist'], function(cb) {
+        return git.tag('v' + newVersion, generateBumpMessage(), function(err) {
+            if (err) { return cb(err); }
+            cb();
+        });
+    });
+
+    gulp.task('checkout-master', ['write-dist-tag'], function(cb) {
+        return git.checkout('master', function(err) {
+            if (err) { return cb(err); }
+            cb();
+        });
+    });
+
+    gulp.task('release', ['checkout-master']);
 
     /** Builds the minified version of your app */
     gulp.task('build-minify', ['minify', 'copy-static-files-minified']);
