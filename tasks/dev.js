@@ -30,13 +30,18 @@ module.exports = function(options) {
             .pipe(gulp.dest(paths.app.root));
     });
 
+    gulp.task('copy-static-dts-files', function() {
+        return gulp.src(paths.typings.glob)
+            .pipe(gulp.dest(paths.temp.typings));
+    });
+
     /** Copies .d.ts files from OneJS to temp path to compile against */
     gulp.task('copy-onejs-dts-files', function() {
         return gulp.src(paths.onejsFiles.dts)
             .pipe(gulp.dest(paths.temp.ts + 'onejs/'));
     });
 
-    /** Cupies static OneJS js files to app path */
+    /** Copies static OneJS js files to app path */
     gulp.task('copy-onejs-js-files', function() {
         return gulp.src(paths.onejsFiles.js)
             .pipe(gulp.dest(paths.app.root + 'onejs/'));
@@ -65,10 +70,10 @@ module.exports = function(options) {
     gulp.task('onejs-ts', function() {
         return gulp.src(paths.src.tsGlob)
             .pipe(gulp.dest(paths.temp.ts));
-    })
+    });
 
     /** Runs the basic pre-processing steps before compilation */
-    gulp.task('tsc-preprocess', ['onejs-html', 'onejs-ts', 'less-to-js', 'copy-onejs-dts-files']);
+    gulp.task('tsc-preprocess', ['onejs-html', 'onejs-ts', 'less-to-js', 'copy-onejs-dts-files', 'copy-static-dts-files']);
 
     /** Runs the TypeScript amd compiler over your application .ts files */
     gulp.task('tsc-amd', ['tsc-preprocess'], function() {

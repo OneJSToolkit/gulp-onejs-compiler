@@ -68,6 +68,7 @@ module.exports = {
         paths: {
             // The common directory structure OneJS uses along with some helpful glob patterns
             app: {
+                // A website would consume files in this dir
                 root: 'app/',
                 jsGlob: 'app/**/*.js',
                 min: {
@@ -75,6 +76,7 @@ module.exports = {
                 }
             },
             dist: {
+                // Distributable structure
                 root: 'dist/',
                 amd: 'dist/amd/',
                 commonjs: 'dist/commonjs/',
@@ -82,6 +84,7 @@ module.exports = {
                 gitGlob: 'dist/*'
             },
             src: {
+                // The (non-test) source will live here
                 root: 'src/',
                 htmlGlob: 'src/**/*.html',
                 lessGlob: 'src/**/*.less',
@@ -89,6 +92,7 @@ module.exports = {
                 glob: 'src/**/*'
             },
             staticFiles: {
+                // Static files that may need to be copied/referenced
                 js: [
                     'node_modules/requirejs/require.js'
                 ],
@@ -96,6 +100,7 @@ module.exports = {
                 bowerPackage: 'bower.json'
             },
             onejsFiles: {
+                // OneJS files that will need to be copied during build process
                 dts: 'bower_components/onejs/dist/amd/*.ts',
                 js: 'bower_components/onejs/dist/amd/*.js'
             },
@@ -106,15 +111,24 @@ module.exports = {
                 glob: 'releaseTemp/**/**/*'
             },
             temp: {
+                // Temp staging dir for building
                 root: 'temp/',
                 ts: 'temp/ts/',
                 test: 'temp/ts/test/',
-                tsGlob: 'temp/ts/**/!(*.d.ts)'
+                typings: 'temp/ts/typings/',
+                typingsGlob: 'temp/ts/typings/**/*.d.ts',
+                tsGlob: 'temp/ts/**/!(*.d.ts|*.test.ts)'
             },
             test: {
+                // Test files will live here
                 root: 'test/',
                 glob: 'test/**/*',
                 karmaConf: 'test/karma.conf.js'
+            },
+            typings: {
+                // This dir is to match up with the structure of tsd: https://github.com/DefinitelyTyped/tsd
+                root: 'typings/',
+                glob: 'typings/**/*.d.ts'
             }
         },
         dev: function(options) {
