@@ -97,6 +97,8 @@ module.exports = {
                 js: 'bower_components/onejs/dist/amd/*.js'
             },
             release: {
+                // These are temp directories that are only used when
+                // publishing to a dist branch
                 root: 'releaseTemp/',
                 glob: 'releaseTemp/**/**/*'
             },

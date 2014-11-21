@@ -58,6 +58,13 @@ module.exports = function(options) {
     /** Creates both dist flavors */
     gulp.task('dist', ['dist-commonjs', 'dist-amd']);
 
+    /**
+     * This next section of tasks are intentionally a bunch of small tasks
+     * so they can play nicely with Gulp's build system.
+     * Taks dealing with git, or writing back the package/bower.json files
+     * need to be synchronous, ergo the callback usage or sync versions
+     * of the node fs methods.
+     */
     gulp.task('pre-release', ['dist'], function() {
         return gulp.src(paths.dist.glob)
             .pipe(gulp.dest(paths.release.root));
@@ -141,7 +148,10 @@ module.exports = function(options) {
         });
     });
 
-    gulp.task('release', ['checkout-master']);
+    /** The master task for bumping versions and publishing to dist branch */
+    gulp.task('release', ['checkout-master'], function() {
+        console.log('Version bumped, please run `git push --tags` and `npm/bower publish` to make updates available.');
+    });;
 
     /** Builds the minified version of your app */
     gulp.task('build-minify', ['minify', 'copy-static-files-minified']);
