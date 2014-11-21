@@ -90,7 +90,7 @@ module.exports = function(options) {
 
     /** Watches your src folder for changes, and runs the default build task */
     gulp.task('watch', function() {
-        gulp.watch(paths.src.glob, ['build']);
+        gulp.watch(paths.src.glob, ['default']);
     });
 
     /** Default dev task for building */
