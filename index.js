@@ -66,7 +66,7 @@ module.exports = {
     },
     gulpTasks: {
         paths: {
-            //The common directory structure OneJS uses along with some helpful glob patterns
+            // The common directory structure OneJS uses along with some helpful glob patterns
             app: {
                 root: 'app/',
                 jsGlob: 'app/**/*.js',
@@ -86,14 +86,20 @@ module.exports = {
                 tsGlob: 'src/**/*.ts',
                 glob: 'src/**/*'
             },
-            staticFiles: [
-                'node_modules/requirejs/require.js'
-            ],
+            staticFiles: {
+                js: [
+                    'node_modules/requirejs/require.js'
+                ],
+            },
+            onejsFiles: {
+                dts: 'bower_components/onejs/dist/amd/*.ts',
+                js: 'bower_components/onejs/dist/amd/*.js'
+            },
             temp: {
                 root: 'temp/',
                 ts: 'temp/ts/',
                 test: 'temp/ts/test/',
-                tsGlob: 'temp/ts/**/*.ts'
+                tsGlob: 'temp/ts/**/!(*.d.ts)'
             },
             test: {
                 root: 'test/',

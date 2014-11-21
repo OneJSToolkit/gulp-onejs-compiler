@@ -13,12 +13,30 @@ module.exports = function(gulp, paths) {
 
     /** Removes all built files, keeping only source */
     gulp.task('nuke', function(cb) {
-        del([paths.temp.root, paths.app.root, paths.app.min.root], cb);
+        del([paths.temp.root, paths.app.root, paths.app.min.root, paths.dist.root], cb);
     });
 
     /** Cleans the temporary folders */
     gulp.task('clean', function(cb) {
         del([paths.temp.root], cb);
+    });
+
+    /** Copies static (non-OneJS) js files to app path */
+    gulp.task('copy-static-js-files', function() {
+        return gulp.src(paths.staticFiles.js)
+            .pipe(gulp.dest(paths.app.root));
+    });
+
+    /** Copies .d.ts files from OneJS to temp path to compile against */
+    gulp.task('copy-onejs-dts-files', function() {
+        return gulp.src(paths.onejsFiles.dts)
+            .pipe(gulp.dest(paths.temp.ts + 'onejs/'));
+    });
+
+    /** Cupies static OneJS js files to app path */
+    gulp.task('copy-onejs-js-files', function() {
+        return gulp.src(paths.onejsFiles.js)
+            .pipe(gulp.dest(paths.app.root + 'onejs/'));
     });
 
     /** Runs LESS compiler, auto-prefixer, and uglify, then creates js modules and outputs to temp folder */
@@ -47,7 +65,7 @@ module.exports = function(gulp, paths) {
     })
 
     /** Runs the basic pre-processing steps before compilation */
-    gulp.task('tsc-preprocess', ['onejs-html', 'onejs-ts', 'less-to-js']);
+    gulp.task('tsc-preprocess', ['onejs-html', 'onejs-ts', 'less-to-js', 'copy-onejs-dts-files']);
 
     /** Runs the TypeScript amd compiler over your application .ts files */
     gulp.task('tsc-amd', ['tsc-preprocess'], function() {
@@ -69,17 +87,11 @@ module.exports = function(gulp, paths) {
             .pipe(gulp.dest(paths.dist.commonjs));
     });
 
-    /** Copies the static files to your application path */
-    gulp.task('copy-static-files', function() {
-        return gulp.src(paths.staticFiles)
-            .pipe(gulp.dest(paths.app.root))
-    });
-
     /** Watches your src folder for changes, and runs the default build task */
     gulp.task('watch', function() {
         gulp.watch(paths.src.glob, ['build']);
     });
 
     /** Default dev task for building */
-    gulp.task('build', ['tsc-amd', 'copy-static-files']);
+    gulp.task('build', ['tsc-amd', 'copy-static-js-files', 'copy-onejs-js-files']);
 };
