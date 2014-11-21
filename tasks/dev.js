@@ -76,8 +76,7 @@ module.exports = function(options) {
             .pipe(tsc({
                 module: 'amd'
             }))
-            .pipe(gulp.dest(paths.app.root))
-            //.pipe(gulp.dest(paths.dist.amd));
+            .pipe(gulp.dest(paths.app.root));
     });
 
     /** Runs the TypeScript commonjs compiler over your application .ts files */
@@ -86,8 +85,7 @@ module.exports = function(options) {
             .pipe(tsc({
                 module: 'commonjs'
             }))
-            .pipe(gulp.dest(paths.app.root))
-            //.pipe(gulp.dest(paths.dist.commonjs));
+            .pipe(gulp.dest(paths.app.root));
     });
 
     /** Watches your src folder for changes, and runs the default build task */
