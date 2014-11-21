@@ -107,23 +107,31 @@ module.exports = {
                 karmaConf: 'test/karma.conf.js'
             }
         },
-        dev: function(gulp) {
+        dev: function(options) {
             // Registers the gulp tasks found in tasks/dev.js
-            devTasks(gulp, this.paths);
+            devTasks(this.mixOptions(options));
         },
-        release: function(gulp) {
+        release: function(options) {
             // Registers the gulp tasks found in tasks/release.js
-            releaseTasks(gulp, this.paths);
+            releaseTasks(this.mixOptions(options));
         },
-        test: function(gulp) {
+        test: function(options) {
             // Registers the gulp tasks found in tasks/test.js
-            testTasks(gulp, this.paths);
+            testTasks(this.mixOptions(options));
         },
-        all: function(gulp) {
+        all: function(options) {
             // Registers all the gulp tasks found in tasks/*.js
-            this.dev(gulp);
-            this.release(gulp);
-            this.test(gulp);
+            this.dev(options);
+            this.release(options);
+            this.test(options);
+        },
+        mixOptions: function(options) {
+            return {
+                gulp: options.gulp,
+                rootDir: options.rootDir || __dirname,
+                paths: options.paths || this.paths,
+                karma: options.karma
+            }
         }
     }
 };

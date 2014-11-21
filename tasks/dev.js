@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(gulp, paths) {
+module.exports = function(options) {
     var onejsCompiler = require('gulp-onejs-compiler').compiler;
     var tsc = require('gulp-typescript');
     var uglify = require('gulp-uglifyjs');
@@ -10,6 +10,9 @@ module.exports = function(gulp, paths) {
     var csstojs = require('gulp-csstojs');
     var postcss = require('gulp-postcss');
     var autoprefixer = require('autoprefixer-core');
+
+    var gulp = options.gulp;
+    var paths = options.paths;
 
     /** Removes all built files, keeping only source */
     gulp.task('nuke', function(cb) {

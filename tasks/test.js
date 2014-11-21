@@ -1,16 +1,19 @@
 'use strict';
 
-module.exports = function(gulp, paths) {
-    var karma = require('karma').server;
+module.exports = function(options) {
+    var karma = options.karma;
+    var gulp = options.gulp;
+    var paths = options.paths;
+    var rootDir = options.rootDir;
 
-    gulp.task('test-preprocess', ['copy-deps'], function() {
+    gulp.task('test-preprocess', ['build'], function() {
         return gulp.src(paths.test.glob)
             .pipe(gulp.dest(paths.temp.test));
     });
 
-    gulp.task('test', ['tsc-commonjs'], function (done) {
+    gulp.task('test', ['test-preprocess'], function (done) {
         karma.start({
-            configFile: paths.test.karmaConf,
+            configFile: rootDir + '/karma.conf.js',
             singleRun: true
         }, done);
     });

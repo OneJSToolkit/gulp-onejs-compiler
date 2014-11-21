@@ -1,9 +1,12 @@
 'use strict';
 
-module.exports = function(gulp, paths) {
+module.exports = function(options) {
     var size = require('gulp-size');
     var uglify = require('gulp-uglifyjs');
     var rename = require('gulp-rename');
+
+    var gulp = options.gulp;
+    var paths = options.paths;
 
     /** Creates a minified version of your application */
     gulp.task('minify', ['tsc-amd'], function() {
