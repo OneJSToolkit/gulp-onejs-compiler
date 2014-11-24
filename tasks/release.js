@@ -11,10 +11,12 @@ module.exports = function(options) {
     var prompt = require('gulp-prompt');
     var fs = require('fs');
     var del = require('del');
+    var _ = require('lodash');
 
     var gulp = options.gulp;
     var paths = options.paths;
     var rootDir = options.rootDir;
+    var tscOptions = options.tscOptions;
 
     var bumpType;
     var newVersion;
@@ -40,18 +42,16 @@ module.exports = function(options) {
     /** Creates the amd distributable directory */
     gulp.task('dist-amd', ['tsc-preprocess'], function() {
         return gulp.src(paths.temp.tsGlob)
-            .pipe(tsc({
-                module: 'amd'
-            }))
+            // Allow tscOption overrides, but ensure that we're targeting amd
+            .pipe(tsc(_.merge(tscOptions, {module: 'amd'})))
             .pipe(gulp.dest(paths.dist.amd));
     });
 
     /** Creates the commonjs distributable directory */
     gulp.task('dist-commonjs', ['tsc-preprocess'], function() {
         return gulp.src(paths.temp.tsGlob)
-            .pipe(tsc({
-                module: 'commonjs'
-            }))
+            // Allow tscOption overrides, but ensure that we're targeting commonjs
+            .pipe(tsc(_.merge(tscOptions, {module: 'commonjs'})))
             .pipe(gulp.dest(paths.dist.commonjs));
     });
 
@@ -100,9 +100,9 @@ module.exports = function(options) {
         packageJson.version = newVersion;
         bowerJson.version = newVersion;
 
-        fs.writeFileSync(paths.staticFiles.npmPackage, JSON.stringify(packageJson, null, 4));
+        fs.writeFileSync(paths.staticFiles.npmPackage, JSON.stringify(packageJson, null, 2));
 
-        fs.writeFileSync(paths.staticFiles.bowerPackage, JSON.stringify(bowerJson, null, 4));
+        fs.writeFileSync(paths.staticFiles.bowerPackage, JSON.stringify(bowerJson, null, 2));
     }
 
     /** Helper function to generate a git message based on version */

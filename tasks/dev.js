@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(options) {
-    var onejsCompiler = require('gulp-onejs-compiler').compiler;
+    var onejsCompiler = require('../index.js').compiler;
     var tsc = require('gulp-typescript');
     var uglify = require('gulp-uglifyjs');
     var del = require('del');
@@ -10,9 +10,12 @@ module.exports = function(options) {
     var csstojs = require('gulp-csstojs');
     var postcss = require('gulp-postcss');
     var autoprefixer = require('autoprefixer-core');
+    var _ = require('lodash');
 
     var gulp = options.gulp;
     var paths = options.paths;
+    var autoprefixerOptions = options.autoprefixerOptions;
+    var tscOptions = options.tscOptions;
 
     /** Removes all built files, keeping only source */
     gulp.task('nuke', function(cb) {
@@ -51,7 +54,7 @@ module.exports = function(options) {
     gulp.task('less-to-js', function() {
         return gulp.src(paths.src.lessGlob)
             .pipe(less())
-            .pipe(postcss([autoprefixer()]))
+            .pipe(postcss([autoprefixer(autoprefixerOptions)]))
             .pipe(cssMinify())
             .pipe(csstojs({
                 typeScript: true
@@ -78,18 +81,16 @@ module.exports = function(options) {
     /** Runs the TypeScript amd compiler over your application .ts files */
     gulp.task('tsc-amd', ['tsc-preprocess'], function() {
         return gulp.src(paths.temp.tsGlob)
-            .pipe(tsc({
-                module: 'amd'
-            }))
+            // Allow tscOption overrides, but ensure that we're targeting amd
+            .pipe(tsc(_.merge(tscOptions, {module: 'amd'})))
             .pipe(gulp.dest(paths.app.root));
     });
 
     /** Runs the TypeScript commonjs compiler over your application .ts files */
     gulp.task('tsc-commonjs', ['tsc-preprocess'], function() {
         return gulp.src(paths.temp.tsGlob)
-            .pipe(tsc({
-                module: 'commonjs'
-            }))
+            // Allow tscOption overrides, but ensure that we're targeting commonjs
+            .pipe(tsc(_.merge(tscOptions, {module: 'commonjs'})))
             .pipe(gulp.dest(paths.app.root));
     });
 

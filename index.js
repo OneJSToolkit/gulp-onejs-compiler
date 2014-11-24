@@ -8,6 +8,7 @@ var typeScriptViewModelGenerator = require('onejs-compiler').TypeScriptViewModel
 var devTasks = require('./tasks/dev.js');
 var releaseTasks = require('./tasks/release.js');
 var testTasks = require('./tasks/test.js');
+var _ = require('lodash');
 
 module.exports = {
 
@@ -158,7 +159,10 @@ module.exports = {
                 gulp: options.gulp,
                 rootDir: options.rootDir || __dirname,
                 paths: options.paths || this.paths,
-                karma: options.karma
+                karma: options.karma,
+                autoprefixerOptions: options.autoprefixerOptions || {},
+                // Set our default to target ES5, but allow overrides from the user
+                tscOptions: _.merge({target: 'ES5'}, options.tscOptions)
             }
         }
     }

@@ -30,6 +30,7 @@
     "gulp-util": "~2.2.14",
     "inquirer": "^0.8.0",
     "karma": "~0.12.24",
+    "lodash": "^2.4.1",
     "onejs-compiler": "^1.1.6",
     "require-dir": "^0.1.0",
     "semver": "^4.1.0",
