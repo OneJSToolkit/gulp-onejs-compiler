@@ -136,12 +136,16 @@ module.exports = {
             devTasks(this.mixOptions(options));
         },
         release: function(options) {
-            // Registers the gulp tasks found in tasks/release.js
-            releaseTasks(this.mixOptions(options));
+            // Registers the gulp tasks found in tasks/release.js and dev.js
+            var mixedOptions = this.mixOptions(options);
+            devTasks(mixedOptions);
+            releaseTasks(mixedOptions);
         },
         test: function(options) {
-            // Registers the gulp tasks found in tasks/test.js
-            testTasks(this.mixOptions(options));
+            // Registers the gulp tasks found in tasks/test.js and dev.js
+            var mixedOptions = this.mixOptions(options);
+            devTasks(mixedOptions);
+            testTasks(mixedOptions);
         },
         all: function(options) {
             // Registers all the gulp tasks found in tasks/*.js
