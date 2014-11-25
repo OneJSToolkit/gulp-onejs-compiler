@@ -118,7 +118,7 @@ module.exports = {
                 test: 'temp/ts/test/',
                 typings: 'temp/ts/typings/',
                 typingsGlob: 'temp/ts/typings/**/*.d.ts',
-                tsGlob: 'temp/ts/**/!(*.d.ts|*.test.ts)'
+                tsGlob: 'temp/ts/**/**/*.ts'
             },
             test: {
                 // Test files will live here
