@@ -16,7 +16,7 @@
     "dependencies": {
         "extend": "^2.0.0",
         "gulp-util": "~2.2.14",
-        "onejs-compiler": "^1.1.6",
+        "onejs-compiler": "^1.1.67",
         "through2": "^0.4.2",
         "xmldom": "^0.1.19"
     },
