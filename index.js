@@ -5,13 +5,17 @@ var gutil = require('gulp-util');
 var path = require('path');
 var typeScriptGenerator = require('onejs-compiler').TypeScriptGenerator;
 var typeScriptViewModelGenerator = require('onejs-compiler').TypeScriptViewModelGenerator;
+var extend = require('extend');
 
-module.exports = function(options) {
-
-    options = options || {
+module.exports = function(userOptions) {
+    var options = extend(true, {
         typeScriptViewFileFormat: '{{templateName}}.ts',
-        typeScriptViewModelFileFormat: 'I{{templateName}}Model.ts'
-    };
+        typeScriptViewModelFileFormat: '',
+        paths: {
+            onejs: '../onejs/',
+            defaultView: '../{{viewType}}/{{viewType}}'
+        }
+    }, userOptions);
 
     function getFileName(nameMatch, templateName) {
         return nameMatch.replace('{{templateName}}', templateName);
@@ -22,7 +26,7 @@ module.exports = function(options) {
         var outputFile = file.clone();
 
         try {
-            outputFile.contents = new Buffer(generator.generate(templateContent));
+            outputFile.contents = new Buffer(generator.generate(templateContent, options));
             outputFile.path = file.path.replace(path.basename(file.path), getFileName(fileNameFormat, generator.template.name));
 
         } catch (e) {

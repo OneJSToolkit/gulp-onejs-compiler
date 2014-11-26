@@ -53,6 +53,20 @@ Default: `I{{templateName}}Model.ts`
 
 The format for view model interface file's filename. Leaving this blank suppresses generation.
 
+### options.paths
+Type: 'Object'
+Default:
+
+```javascript
+paths: {
+    onejs: '../onejs/',
+    defaultView: '../{{viewType}}/{{viewType}}'
+}
+```	
+
+Specifies the default paths to use in the imports. {{viewType}} will be replaced with the
+classname of the current view.
+
 ## License
 
 MIT © [David Zearing](http://github.com/dzearing)
